@@ -1,0 +1,50 @@
+{
+  "name": "canvas_snow",
+  "version": "1.0.0",
+  "description": "canvas 实现的简单下雪效果",
+  "main": "index.js",
+  "scripts": {
+    "start" : "webpack-dev-server --config ./build/webpack.dev.ts --open --hot",
+    "build" : "webpack -p --config ./build/webpack.prod.ts --progress --hide-modules",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hzjjg/canvas_snow.git"
+  },
+  "keywords": [
+    "canvas",
+    "snow"
+  ],
+  "author": "hzjjg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hzjjg/canvas_snow/issues"
+  },
+  "homepage": "https://github.com/hzjjg/canvas_snow#readme",
+  "devDependencies": {
+    "@types/clean-webpack-plugin": "^0.1.2",
+    "@types/html-webpack-plugin": "^3.2.0",
+    "@types/mini-css-extract-plugin": "^0.2.0",
+    "@types/node": "^10.12.18",
+    "@types/optimize-css-assets-webpack-plugin": "^1.3.3",
+    "@types/uglifyjs-webpack-plugin": "^1.1.0",
+    "@types/webpack": "^4.4.22",
+    "@types/webpack-dev-server": "^3.1.1",
+    "@types/webpack-merge": "^4.1.3",
+    "awesome-typescript-loader": "^5.2.1",
+    "clean-webpack-plugin": "^1.0.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.5.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.12.0",
+    "typescript": "^3.2.2",
+    "uglifyjs-webpack-plugin": "^2.1.0",
+    "webpack": "^4.28.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.13",
+    "webpack-merge": "^4.1.5"
+  }
+}
