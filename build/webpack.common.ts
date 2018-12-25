@@ -32,7 +32,7 @@ const commonConfg: (nodeEnv: NodeEnv) => webpack.Configuration = (nodeEnv: NodeE
                     loader: 'url-loader',
                     options: {
                         limit: 1,
-                        name: 'dist/fonts/[name].[ext]',
+                        name: 'fonts/[name].[ext]',
                     },
                 },
                 {
@@ -60,7 +60,7 @@ const commonConfg: (nodeEnv: NodeEnv) => webpack.Configuration = (nodeEnv: NodeE
                     loader: 'url-loader',
                     query: {
                         limit: 1,
-                        name: 'dist/images/[hash:8].[name].[ext]',
+                        name: 'images/[hash:8].[name].[ext]',
                     },
                 },
             ],
