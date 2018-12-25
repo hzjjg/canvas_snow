@@ -4,7 +4,7 @@ canvas 实现的简单下雪效果
 
 ## demo
 
-[demo]()
+[demo](https://hzjjg.github.io/canvas_snow/dist/)
 
 ## install and run
 
