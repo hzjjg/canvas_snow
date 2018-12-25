@@ -76,5 +76,9 @@ canvas 实现的简单下雪效果
     snow.changeQuantity(5);
 ```
 
+### TODOS
+
+    * 使用webgl实现更好性能
+    * 改善代码中雪花的加载方式，使易于拓展。
 
 
