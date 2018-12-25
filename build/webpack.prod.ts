@@ -9,7 +9,7 @@ const webpackConfig = webpackMerge(commonConfg('production'), {
 
     plugins: [
         new MiniCssExtractPlugin({
-            filename: 'stylessheets/[name].[contenthash].css',
+            filename: '[name].[contenthash].css',
         }),
     ],
 
