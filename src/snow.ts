@@ -1,15 +1,20 @@
-const flakeUrl = '//beauty-public.zone1.meitudata.com/5c10d9de46b273fnz2y6p48138.jpg';
-const blurFlakeUrl = '//beauty-public.zone1.meitudata.com/5c15ff3406923pnwqslhgb8334.jpg';
-const circleFlakeUrl = '//beauty-public.zone1.meitudata.com/5c160b8d08104p1mwfp3yg4354.jpg';
+import SnowPic from './snow_pic';
 
 /**
  * 下雪效果
  */
-export class Snow {
+export default class Snow {
 
    private container: HTMLElement;
 
-   private config: SnowConfig;
+   private options: SnowOptions;
+
+   private defaultOption: SnowOptions = {
+      container: null,
+      stopWhenVisibilityChange: true,
+      quantity: 5,
+      speed: 5,
+   };
 
    private canvas: HTMLCanvasElement;
 
@@ -23,13 +28,21 @@ export class Snow {
 
    private flakes: SnowFlake[] = [];
 
+   /** 雪的数量 1-10 */
+   private quantity: number;
+   /** 雪的速度 1-10 */
+   private speed: number;
+
    private genFlakeTimmer: any;
    private gcTimmer: any;
    private renderAnimationFrame: number;
 
-   constructor(config: SnowConfig) {
-      this.config = config;
-      this.container = config.container;
+   constructor(option: SnowOptions) {
+      this.options = Object.assign(this.defaultOption, option);
+      this.container = option.container;
+
+      this.quantity = Math.max(1, Math.min(this.options.quantity, 100));
+      this.speed = Math.max(1, Math.min(this.options.speed, 10));
       this.init();
    }
 
@@ -37,7 +50,7 @@ export class Snow {
       if (this.status === 'start') return;
 
       this.status = 'start';
-      this.loadImages([flakeUrl, blurFlakeUrl, circleFlakeUrl]).then(() => {
+      this.loadImages([SnowPic.flakeImage, SnowPic.blurFlakeImage, SnowPic.circleFlakeImage]).then(() => {
          this.startGenFlake();
          this.startRender();
          this.startGc();
@@ -54,6 +67,26 @@ export class Snow {
       this.status = 'stop';
    }
 
+   /**
+    * 改变速度
+    * @param speed 1-10
+    */
+   public changeSpeed(speed: number){
+      if (isNaN(speed)) return;
+      this.speed = Math.max(1, Math.min(speed, 10));
+   }
+
+   /**
+    * 改变雪数量
+    * @param quantity 1-100
+    */
+   public changeQuantity(quantity: number){
+      if (isNaN(quantity)) return;
+      this.stop();
+      this.quantity = Math.max(1, Math.min(quantity, 100));
+      this.start();
+   }
+
    private genFlake(): SnowFlake {
 
       const size = this.randomRange(10, 40);
@@ -63,8 +96,8 @@ export class Snow {
          x: this.randomRange(0, this.canvas.width),
          y: -size,
          velocity: {
-            x: this.randomRange(-2, 2) / 10,
-            y: this.randomRange(5, 15) / 10,
+            x: this.randomRange(-2, 2) * (this.speed / 50),
+            y: this.randomRange(5, 15) * (this.speed / 50),
          },
          size,
          alpha: this.randomRange(8, 10) / 10,
@@ -84,10 +117,9 @@ export class Snow {
    }
 
    private startGenFlake() {
-      // TODO
       this.genFlakeTimmer = setInterval(() => {
          this.flakes.push(this.genFlake());
-      }, 500);
+      }, 2000 / this.quantity);
    }
 
    private startRender() {
@@ -164,19 +196,23 @@ export class Snow {
    }
 
    private init() {
-      this.flakeImg.src = flakeUrl;
-      this.blurFlakeImg.src = blurFlakeUrl;
-      this.circleFlakeImg.src = circleFlakeUrl;
+      this.flakeImg.src = SnowPic.flakeImage;
+      this.blurFlakeImg.src = SnowPic.blurFlakeImage;
+      this.circleFlakeImg.src = SnowPic.circleFlakeImage;
 
+      this.options.stopWhenVisibilityChange && this.bindPageVisibilitychangeStopSnow();
       this.initCanvas();
 
+   }
+
+   private bindPageVisibilitychangeStopSnow() {
       document.addEventListener('visibilitychange', () => {
-         if (this.status === 'start'){
+         if (this.status === 'start') {
             this.stop();
-         }else{
+         } else {
             this.start();
          }
-       });
+      });
    }
 
    private initCanvas() {
@@ -188,7 +224,7 @@ export class Snow {
       canvas.style.top = '0';
       canvas.style.pointerEvents = 'none';
       canvas.style.zIndex = '999';
-      canvas.className = this.config.canvasClass;
+      canvas.className = this.options.canvasClass;
       canvas.setAttribute('width', this.container.offsetWidth.toString());
       canvas.setAttribute('height', this.container.offsetHeight.toString());
 
@@ -219,9 +255,14 @@ export class Snow {
 
 }
 
-interface SnowConfig {
-   container: any;
+interface SnowOptions {
+   container: HTMLElement;
    canvasClass?: string;
+   stopWhenVisibilityChange?: boolean;
+   /** 雪数量 1-10 */
+   quantity?: number;
+   /** 雪速度 1-10 */
+   speed?: number;
 }
 
 interface SnowFlake {

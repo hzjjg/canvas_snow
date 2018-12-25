@@ -45,7 +45,6 @@ const commonConfg: (nodeEnv: NodeEnv) => webpack.Configuration = (nodeEnv: NodeE
                             loader: 'css-loader',
                             options: {
                                 sourceMap: false,
-                                minimize: true,
                             },
                         },
                         {
